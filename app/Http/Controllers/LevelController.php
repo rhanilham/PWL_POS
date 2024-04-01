@@ -2,23 +2,56 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LevelModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\DataTables\LevelDataTable;
 
 class LevelController extends Controller
 {
-    public function index()
+    public function index(LevelDataTable $dataTable)
     {
-        DB::insert('insert into m_level(level_code, level_nama, created_at) values(?, ?, ?)', ['CUS', 'Pelanggan', now()]);
-        return 'Insert data baru berhasil';
+        return $dataTable->render('level.index');
+    }
 
-        // $row = DB::update('update m_level set level_nama = ? where level_code = ?', ['Customer', 'CUS']);
-        // return 'Update data berhasil. Jumlah data yang diupdate : ' . $row . 'baris';
+    public function create()
+    {
+        return view('level.create');
+    }
+    
+    public function store(Request $request)
+    {
+        LevelModel::create([
+            'level_code' => $request->codelevel,
+            'level_nama' => $request->namalevel,
+        ]);
+        
+        return redirect('/level');
+    }
 
-        // $row = DB::delete('delete from m_level where level_code = ? ', ['CUS']);
-        // return 'Delete data berhasil. Jumlah data yang dihapus : ' . $row . 'baris';
+    public function edit($id)
+    {
+        $level = LevelModel::find($id);
+        return view('level.edit', compact('level'));
+    }
 
-        // $data = DB::select('select * from m_level');
-        // return view('level', ['data' => $data]);
+    public function update($id, Request $request)
+    {
+        $level = LevelModel::find($id);
+        if (!$level) {
+            return redirect()->back()->with('error', 'Level tidak ditemukan.');
+        }
+
+        $level->level_code = $request->codelevel;
+        $level->level_nama = $request->namalevel;
+        $level->save();
+
+        return redirect('/level')->with('success', 'Level berhasil diperbarui.');
+    }
+
+
+    public function destroy($id)
+    {
+        LevelModel::destroy($id);
+        return redirect('/level');
     }
 }

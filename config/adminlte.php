@@ -328,6 +328,16 @@ return [
             'url' => '../public/kategori',
             'icon' => 'fas fa-fw fa-bars',
         ],
+        [
+            'text' => 'Level',
+            'url' => '../public/level',
+            'icon' => 'fas fa-fw fa-cubes',
+        ],
+        [
+            'text' => 'User',
+            'url' => '../public/user',
+            'icon' => 'fas fa-fw fa-user',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
