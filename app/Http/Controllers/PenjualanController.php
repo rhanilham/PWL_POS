@@ -174,7 +174,6 @@ class PenjualanController extends Controller
         ]);
 
         $penjualanTanggal = \Carbon\Carbon::parse($request->tanggal . ' ' . $request->waktu);
-
         $penjualan = PenjualanModel::findOrFail($id);
         $penjualan->pembeli = $validatedData['pembeli'];
         $penjualan->penjualan_tanggal = $penjualanTanggal;
